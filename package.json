@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start:local": "cp env/.env.local .env && next dev",
+    "start:local:dev": "cp env/.env.local .env && next dev",
     "start:local:prod": "cp env/.env.local .env && next start",
     "build": "next build",
-    "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
     "analyze": "ANALYZE=true next build",
