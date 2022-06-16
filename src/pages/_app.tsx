@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components'
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider, Hydrate } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import AppProvider from '../context'
 import Reset from '../styles/reset'
 import Normalize from '../styles/normalize'
 import GlobalStyle from '../styles/globalStyle'
@@ -22,12 +23,14 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <ThemeProvider theme={theme}>
-          <Reset />
-          <Normalize />
-          <GlobalStyle />
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <AppProvider>
+          <ThemeProvider theme={theme}>
+            <Reset />
+            <Normalize />
+            <GlobalStyle />
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </AppProvider>
       </Hydrate>
       <ReactQueryDevtools />
     </QueryClientProvider>
