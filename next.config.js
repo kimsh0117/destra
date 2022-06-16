@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
-});
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
 
 const nextConfig = {
   reactStrictMode: true,
@@ -19,10 +19,12 @@ const nextConfig = {
     NEXT_AUTH_URL: process.env.NEXTAUTH_URL,
   },
   compiler: {
-    removeConsole: process.env.NODE_ENV !== "development",
+    // ssr and displayName are configured by default
+    styledComponents: true,
+    removeConsole: process.env.NODE_ENV !== 'development',
   },
-};
+}
 
 module.exports = withBundleAnalyzer({
   ...nextConfig,
-});
+})
