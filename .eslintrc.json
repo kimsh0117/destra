@@ -1,3 +1,98 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:prettier/recommended",
+    "plugin:import/warnings",
+    "plugin:import/errors",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2021,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint"],
+  "rules": {
+    "no-console": [
+      "warn",
+      {
+        "allow": ["warn", "error"]
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      },
+      {
+        "usePrettierrc": true
+      }
+    ], // Includes .prettierrc.js rules,
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off",
+    "react/prefer-stateless-function": 0,
+    "react/jsx-one-expression-per-line": 0,
+    "react/jsx-filename-extension": "off", // <> </> prevent writing
+    "react/prop-types": "off", // We will use TypeScript's types for component props instead
+    "react/react-in-jsx-scope": "off", // No need to import React with Next.js
+    "react/jsx-props-no-spreading": "off", // avoid using spread operator
+    "react/require-default-props": "off", // avoid undefined in props
+    "react-hooks/exhaustive-deps": ["warn"],
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "no-unused-expressions": 0,
+    "import/extensions": ["off"],
+    "import/no-unresolved": "off",
+    "import/prefer-default-export": "off",
+    "no-nested-ternary": "off", // Preventing another ternary operation within a ternary operation
+    "spaced-comment": "off", // Avoid writing comments
+    "no-unused-variable": "off", // Avoid having unused variables
+    "camelcase": "off", // only camelcase
+    "no-use-before-define": "off", // Avoid using it before it is defined
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/ban-types": "off", // Avoid specifying functions and objects as types
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-inferrable-types": "off", // Avoid specifying type when assigning initial value
+    "@typescript-eslint/no-var-requires": "off", // Avoid using require
+    "@typescript-eslint/explicit-module-boundary-types": "off", //values returned from a module are of the expected type.
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/explicit-function-return-type": [
+      // I suggest this setting for requiring return types on functions only where usefull
+      "off",
+      {
+        "allowExpressions": true,
+        "allowConciseArrowFunctionExpressionsStartingWithVoid": true
+      }
+    ],
+    "@typescript-eslint/no-empty-interface": 0, // define default props
+    "@typescript-eslint/no-empty-function": 0, // allow empty function
+    "jsx-a11y/accessible-emoji": "off", // Use img tags instead of emojis
+    "jsx-a11y/no-static-element-interactions": "off", //
+    "jsx-a11y/click-events-have-key-events": "off" //
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx", ".js", ".jsx"]
+    }
+  }
 }
