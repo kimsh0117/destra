@@ -56,7 +56,7 @@ const Input: React.FC<Props> = React.forwardRef<HTMLInputElement, Props>(
 )
 
 Input.displayName = 'Input'
-export default Input
+export default React.memo(Input)
 
 const StyledContainer = styled.div`
   display: flex;

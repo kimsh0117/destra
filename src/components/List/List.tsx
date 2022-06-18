@@ -28,7 +28,7 @@ const List = React.forwardRef<HTMLDivElement, Props>(({ clicked }, ref) => {
 })
 
 List.displayName = 'List'
-export default List
+export default React.memo(List)
 
 const StyledWrapper = styled.div<Style>`
   ${({ clicked }) => {

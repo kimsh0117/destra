@@ -17,7 +17,7 @@ const Card: React.VFC<Props> = ({ title, category }) => {
   )
 }
 
-export default Card
+export default React.memo(Card)
 
 const StyledCard = styled.div<Style>`
   width: 100%;

@@ -12,4 +12,4 @@ const Icon = ({ name, width = '24', height = '24' }: Props) => {
   return <Component width={width} height={height} />
 }
 
-export default Icon
+export default React.memo(Icon)
