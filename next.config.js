@@ -7,6 +7,22 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  async rewrites() {
+    return [
+      {
+        source: '/auth/:path*',
+        destination: '/api/auth/:path*',
+      },
+    ]
+  },
+  webpack(config) {
+    // for svg image import
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    })
+    return config
+  },
   serverRuntimeConfig: {
     // Will only be available on the server side
     API_URL: process.env.API_URL,

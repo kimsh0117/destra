@@ -1,11 +1,12 @@
 import React, { createContext, Dispatch, useContext, useReducer } from 'react'
+import { TModal } from '../components/Modal'
 
 type State = {
   modalShown: boolean
-  modalType: string
+  modalType: TModal
 }
 
-type Action = { type: 'SET_MODAL'; modalShown: boolean; modalType: '' }
+type Action = { type: 'SET_MODAL'; modalShown: boolean; modalType: TModal }
 
 type AppDispatch = Dispatch<Action>
 
@@ -28,7 +29,7 @@ const reducer = (state: State, action: Action): State => {
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, {
     modalShown: false,
-    modalType: '',
+    modalType: TModal.BLANK,
   })
   return (
     <AppContext.Provider value={state}>
