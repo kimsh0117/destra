@@ -48,6 +48,7 @@ const StyledCardTitle = styled.p`
   height: 40px;
   ${({ theme }) => theme.mixins.textLink};
   margin-bottom: 25px;
+  color: ${({ theme }) => theme.colors.primaryDark};
   @media ${({ theme }) => theme.devices.mobileMdUp} {
     ${({ theme }) => theme.mixins.H5};
   }

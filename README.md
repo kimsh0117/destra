@@ -15,13 +15,13 @@ Git Strategy:
 
 ## Getting Started
 
-Run the development server:
+Run the **local** development server:
 
 ```bash
 npm run start:local:dev
 ```
 
-Run the production server:
+Run the **local** production server:
 
 ```bash
 npm run build
