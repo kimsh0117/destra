@@ -1,7 +1,4 @@
 export const baseSizes = {
-  desktop: 1440,
-  tablet: 744,
-  mobile: 320,
   desktopUp: 1330,
   noteUp: 1199.98,
   ipadBigUp: 991.98,

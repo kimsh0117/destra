@@ -1,11 +1,15 @@
 import React, { createContext, Dispatch, useContext, useReducer } from 'react'
+import { TModal } from '../components/Modal'
 
 type State = {
   modalShown: boolean
-  modalType: string
+  modalType: TModal
+  loading: boolean
 }
 
-type Action = { type: 'SET_MODAL'; modalShown: boolean; modalType: '' }
+type Action =
+  | { type: 'SET_MODAL'; modalShown: boolean; modalType: TModal }
+  | { type: 'SET_LOADING'; loading: boolean }
 
 type AppDispatch = Dispatch<Action>
 
@@ -20,6 +24,11 @@ const reducer = (state: State, action: Action): State => {
         modalShown: action.modalShown,
         modalType: action.modalType,
       }
+    case 'SET_LOADING':
+      return {
+        ...state,
+        loading: action.loading,
+      }
     default:
       throw new Error('Unhandled action')
   }
@@ -28,7 +37,8 @@ const reducer = (state: State, action: Action): State => {
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, {
     modalShown: false,
-    modalType: '',
+    modalType: TModal.BLANK,
+    loading: false,
   })
   return (
     <AppContext.Provider value={state}>
