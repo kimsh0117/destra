@@ -4,7 +4,7 @@
 - Next
 - Styled-component
 - Typescript
-- React-query
+- React-Query
 - ContextAPI
 
 # Git
@@ -27,3 +27,11 @@ Run the **local** production server:
 npm run build
 npm run start:local:prod
 ```
+
+
+## Логика авторизация
+
+На `/src/pages/api/auth/[...nextauth].ts`
+
+## PS
+- Логин слишком быстро выполняется. Поэтому если хотите увидит лоудер кнопки, нужно настройть throttling на 3G 
