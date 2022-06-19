@@ -1,41 +1,63 @@
 import { api, IResponse, THeaders } from '../utils/http'
 import { useQuery } from 'react-query'
 import { AxiosResponse, AxiosError } from 'axios'
+import { IUsePaginationState } from '../hook/usePagination'
 
 export interface IGetContent extends IResponse {
-  result: {}
+  result: {
+    _id: string
+    name: string
+    category: string
+  }[]
 }
 
 export interface IGetContentTotal extends IResponse {
-  result: {}
+  result: {
+    count: number
+  }
 }
 
 const contentApi = {
-  getContent: (payload: THeaders) => {
-    return api
-      .get<IGetContent>('api/v1/content', {
-        headers: payload,
-      })
-      .then(res => res)
+  getContent: ({ headers, options }: IUseGetContentPayload) => {
+    return api.get<IGetContent>('api/v1/content', {
+      headers,
+      params: {
+        page: options?.page,
+        limit: options?.limit,
+      },
+    })
   },
   getContentTotal: (payload: THeaders) => {
-    return api
-      .get<IGetContentTotal>('api/v1/total', {
-        headers: payload,
-      })
-      .then(res => res)
+    return api.get<IGetContentTotal>('api/v1/content/total', {
+      headers: payload,
+    })
   },
 }
 
 export default contentApi
 
+export interface IUseGetContentPayload {
+  headers: THeaders
+  options?: Pick<IUsePaginationState, 'page' | 'limit'>
+}
+
 export const useContentQuery = {
-  useGetContent: (payload: THeaders) => {
+  useGetContent: ({
+    headers,
+    options = {
+      page: 0,
+      limit: 6,
+    },
+  }: IUseGetContentPayload) => {
     return useQuery<AxiosResponse<IGetContent>, AxiosError>(
-      ['getContent'],
-      () => contentApi.getContent(payload),
+      ['getContent', options?.page, options?.limit],
+      () => contentApi.getContent({ headers, options }),
       {
-        onError: () => {},
+        enabled: !!headers['x-access-token'],
+        keepPreviousData: true,
+        onError: () => {
+          console.log('Failed to get content /api/v1/content ')
+        },
       },
     )
   },
@@ -44,7 +66,10 @@ export const useContentQuery = {
       ['getContentTotal'],
       () => contentApi.getContentTotal(payload),
       {
-        onError: () => {},
+        enabled: !!payload['x-access-token'],
+        onError: () => {
+          console.log('Failed to get content /api/v1/total')
+        },
       },
     )
   },

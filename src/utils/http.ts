@@ -13,8 +13,6 @@ export interface IResponse {
   event?: string
 }
 
-type Access = 'x-access-token' | 'x-refresh-token'
-
 export type THeaders = {
-  [token in Access]: string
+  [key: string]: string
 }
