@@ -18,6 +18,7 @@ export enum ButtonStyle {
 export enum ButtonSize {
   BLOCK = 'block',
   PADDING = 'padding',
+  SAME_PADDING = 'samePadding',
 }
 
 interface Style {
@@ -29,7 +30,7 @@ interface Style {
 }
 
 interface Props extends Style {
-  type: 'button' | 'submit' | 'reset'
+  type?: 'button' | 'submit' | 'reset'
   onClick?: (
     e:
       | React.MouseEvent<HTMLButtonElement>
@@ -48,7 +49,7 @@ const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
       onClick,
       clicked,
       shadow,
-      type,
+      type = 'button',
       loading,
     },
     ref,
@@ -124,16 +125,18 @@ const StyledContainer = styled(StyledDefaultButton)<Style>`
         padding: 14px 30px;
         width: fit-content;
       `
+    } else if (size === ButtonSize.SAME_PADDING) {
+      return css`
+        padding: 5px;
+        border-radius: 5px;
+        min-width: 30px;
+        min-height: 30px;
+      `
     } else {
       css``
     }
   }}
-  & {
-    svg path,
-    svg rect {
-      fill: ${({ theme }) => theme.colors.primaryDark};
-    }
-  }
+
   ${({ buttonStyle }) => {
     switch (buttonStyle) {
       case ButtonStyle.FILLED:
@@ -151,16 +154,14 @@ const StyledContainer = styled(StyledDefaultButton)<Style>`
         `
       case ButtonStyle.OUTLINED:
         return css`
-          color: ${({ theme }) => theme.colors.primary};
+          color: ${({ theme }) => theme.colors.black};
           border: 1px solid ${({ theme }) => theme.colors.primary};
           &:hover {
-            border: solid 1px ${({ theme }) => theme.colors.primary};
-            color: #ffffff;
             background-color: ${({ theme }) => theme.colors.primary};
+            color: #ffffff;
           }
 
           &:active {
-            border: solid 1px ${({ theme }) => theme.colors.primary};
             color: #ffffff;
             background-color: ${({ theme }) => theme.colors.primary};
           }
@@ -175,4 +176,16 @@ const StyledContainer = styled(StyledDefaultButton)<Style>`
         break
     }
   }}
+  ${({ clicked }) => {
+    if (clicked && ButtonStyle.OUTLINED) {
+      return css`
+        background-color: ${({ theme }) => theme.colors.primary};
+        color: #ffffff;
+      `
+    }
+  }}
+  &:disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 `

@@ -1,6 +1,7 @@
 import { api, IResponse, THeaders } from '../utils/http'
 import { useQuery } from 'react-query'
 import { AxiosResponse, AxiosError } from 'axios'
+import { IUsePaginationState } from '../hook/usePagination'
 
 export interface IGetContent extends IResponse {
   result: {
@@ -17,12 +18,12 @@ export interface IGetContentTotal extends IResponse {
 }
 
 const contentApi = {
-  getContent: (payload: THeaders) => {
+  getContent: ({ headers, options }: IUseGetContentPayload) => {
     return api.get<IGetContent>('api/v1/content', {
-      headers: payload,
+      headers,
       params: {
-        page: 1,
-        limit: 6,
+        page: options?.page,
+        limit: options?.limit,
       },
     })
   },
@@ -35,13 +36,25 @@ const contentApi = {
 
 export default contentApi
 
+export interface IUseGetContentPayload {
+  headers: THeaders
+  options?: Pick<IUsePaginationState, 'page' | 'limit'>
+}
+
 export const useContentQuery = {
-  useGetContent: (payload: THeaders) => {
+  useGetContent: ({
+    headers,
+    options = {
+      page: 0,
+      limit: 6,
+    },
+  }: IUseGetContentPayload) => {
     return useQuery<AxiosResponse<IGetContent>, AxiosError>(
-      ['getContent'],
-      () => contentApi.getContent(payload),
+      ['getContent', options?.page, options?.limit],
+      () => contentApi.getContent({ headers, options }),
       {
-        enabled: !!payload['x-access-token'],
+        enabled: !!headers['x-access-token'],
+        keepPreviousData: true,
         onError: () => {
           console.log('Failed to get content /api/v1/content ')
         },

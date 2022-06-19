@@ -153,6 +153,13 @@ const StyledInputWrapper = styled.div`
 
 const StyledButtonWrapper = styled.div`
   margin-top: 40px;
+
+  button {
+    svg path,
+    svg rect {
+      fill: ${({ theme }) => theme.colors.primaryDark};
+    }
+  }
 `
 
 const StyledHr = styled.hr`
