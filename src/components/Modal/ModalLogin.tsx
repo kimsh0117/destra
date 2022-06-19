@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react'
 /**
  * context
  */
-import { useAppDispatch } from '../../context/app'
+import { useAppDispatch, useAppState } from '../../context/app'
 /**
  * ui
  */
@@ -35,8 +35,13 @@ const ModalLogin: React.FC = () => {
     },
   })
   const dispatch = useAppDispatch()
+  const { loading } = useAppState()
 
   const onSubmit: SubmitHandler<TFormValue> = data => {
+    dispatch({
+      type: 'SET_LOADING',
+      loading: true,
+    })
     const body = {
       ...data,
     }
@@ -44,12 +49,16 @@ const ModalLogin: React.FC = () => {
       email: '',
       password: '',
     })
-    signIn('commonLogin', {
+    return signIn('commonLogin', {
       redirect: false,
       ...body,
     }).then(res => {
       // @ts-ignore
       if (!res.error) {
+        dispatch({
+          type: 'SET_LOADING',
+          loading: false,
+        })
         dispatch({
           type: 'SET_MODAL',
           modalShown: false,
@@ -58,6 +67,10 @@ const ModalLogin: React.FC = () => {
       }
       //@ts-ignore
       if (res && res.error) {
+        dispatch({
+          type: 'SET_LOADING',
+          loading: false,
+        })
         setValue('email', body.email)
         setValue('password', body.password)
         setError('email', {
@@ -105,6 +118,7 @@ const ModalLogin: React.FC = () => {
       </StyledInputWrapper>
       <StyledButtonWrapper>
         <Button
+          loading={loading}
           buttonStyle={ButtonStyle.FILLED}
           size={ButtonSize.BLOCK}
           disabled={!isValid || isSubmitting || !isDirty}

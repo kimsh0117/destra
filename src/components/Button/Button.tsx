@@ -2,6 +2,10 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 import debounce from 'lodash/debounce'
 /**
+ * ui
+ */
+import Icon from '../Icon'
+/**
  * constants
  */
 import { DEBOUNCE_WAIT } from '../../constants'
@@ -9,8 +13,6 @@ import { DEBOUNCE_WAIT } from '../../constants'
 export enum ButtonStyle {
   FILLED = 'filled',
   OUTLINED = 'outlined',
-  OUTLINED_TAG = 'outlinedTag',
-  ICON = 'icon',
 }
 
 export enum ButtonSize {
@@ -27,17 +29,28 @@ interface Style {
 }
 
 interface Props extends Style {
+  type: 'button' | 'submit' | 'reset'
   onClick?: (
     e:
       | React.MouseEvent<HTMLButtonElement>
       | React.TouchEvent<HTMLButtonElement>,
   ) => void
-  type: 'button' | 'submit' | 'reset'
+  loading?: boolean
 }
 
 const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
   (
-    { buttonStyle, size, disabled, children, onClick, clicked, shadow, type },
+    {
+      buttonStyle,
+      size,
+      disabled,
+      children,
+      onClick,
+      clicked,
+      shadow,
+      type,
+      loading,
+    },
     ref,
   ) => {
     const handler = debounce(
@@ -62,7 +75,7 @@ const Button: React.FC<Props> = React.forwardRef<HTMLButtonElement, Props>(
         ref={ref}
         type={type}
       >
-        {children}
+        {loading ? <Icon name='loader' width='13' height='15' /> : children}
       </StyledContainer>
     )
   },
@@ -115,6 +128,12 @@ const StyledContainer = styled(StyledDefaultButton)<Style>`
       css``
     }
   }}
+  & {
+    svg path,
+    svg rect {
+      fill: ${({ theme }) => theme.colors.primaryDark};
+    }
+  }
   ${({ buttonStyle }) => {
     switch (buttonStyle) {
       case ButtonStyle.FILLED:
@@ -127,8 +146,7 @@ const StyledContainer = styled(StyledDefaultButton)<Style>`
           }
 
           &:disabled {
-            background-color: #ffffff;
-            color: ${({ theme }) => theme.colors.grey};
+            background-color: ${({ theme }) => theme.colors.primaryLight};
           }
         `
       case ButtonStyle.OUTLINED:
